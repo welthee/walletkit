@@ -5,6 +5,8 @@
 
 cmake_minimum_required(VERSION 3.10.2)
 
+project(WalletKitCore)
+
 # now build app's shared lib
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
 
