@@ -22,13 +22,14 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFile 'proguard_rules.pro'
         }
 
         debug {
             debuggable true
             jniDebuggable true
             minifyEnabled false
+            proguardFile 'proguard_rules.pro'
         }
     }
 
@@ -55,14 +56,16 @@ android {
 }
 
 dependencies {
+    api deps.jnaAndroid
     api project(':crypto')
 
-    implementation project(':corenative-android')
-    implementation deps.guavaAndroid
-    implementation deps.androidAppCompatV7
-    implementation deps.jacksonAnnotations
-    implementation deps.jacksonCore
-    implementation deps.jacksonDatabind
+    //api project(':corenative-android')
+    api(name:"corenative-android-debug", ext:"aar")
+    api deps.guavaAndroid
+    api deps.androidAppCompatV7
+    api deps.jacksonAnnotations
+    api deps.jacksonCore
+    api deps.jacksonDatabind
 
     testImplementation deps.junit
 

@@ -7,7 +7,10 @@
  */
 package com.breadwallet.cryptodemo;
 
-import android.support.annotation.Nullable;
+
+import android.annotation.SuppressLint;
+
+import androidx.annotation.Nullable;
 
 import com.breadwallet.crypto.Account;
 import com.breadwallet.crypto.Address;
@@ -166,6 +169,7 @@ public class CoreSystemListener implements SystemListener {
                             createWalletManagerIfAppropriate(serializationData, system, network, mode, addressScheme);
                         }
 
+                        @SuppressLint("NewApi")
                         @Override
                         public void handleError(AccountInitializationError error) {
                             if (error instanceof AccountInitializationMultipleHederaAccountsError) {

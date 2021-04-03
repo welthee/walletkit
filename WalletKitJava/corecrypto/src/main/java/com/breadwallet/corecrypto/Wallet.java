@@ -38,6 +38,8 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import static com.breadwallet.corenative.CryptoLibraryDirect.cryptoWalletCreateFeeBasis;
+import static com.breadwallet.corenative.CryptoLibraryDirect.cryptoWalletGetDefaultFeeBasis;
 import static com.google.common.base.Preconditions.checkState;
 
 /* package */
@@ -409,6 +411,18 @@ final class Wallet implements com.breadwallet.crypto.Wallet {
     @Override
     public Amount getBalance() {
         return Amount.create(core.getBalance());
+    }
+
+    @Override
+    public TransferFeeBasis createTransferFeeBasis(com.breadwallet.crypto.Amount pricePerCostFactor, double costFactor) {
+
+        BRCryptoAmount corePricePerCostFactor = Amount.from(pricePerCostFactor).getCoreBRCryptoAmount();
+        return TransferFeeBasis.create(new BRCryptoFeeBasis(cryptoWalletCreateFeeBasis(core.getPointer(), corePricePerCostFactor.getPointer(), costFactor )));
+    }
+
+    @Override
+    public TransferFeeBasis defaultFeeBasis() {
+        return TransferFeeBasis.create(new BRCryptoFeeBasis(cryptoWalletGetDefaultFeeBasis(core.getPointer())));
     }
 
     @Override
