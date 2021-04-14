@@ -121,7 +121,7 @@ DEFINE_CURRENCY ("ethereum-ropsten",    "ethereum-ropsten:0x7108ca7c4718efa81045
     DEFINE_UNIT ("ethereum-ropsten:0x7108ca7c4718efa810457f228305c9c71390931a",      "BRD Token",             "brd",       18,     "BRD")
 DEFINE_CURRENCY ("ethereum-ropsten", "ethereum-ropsten:0xa66de2a67f762a4da715a80b55629387858a3e7c", "Welthee", "welt", "erc20", "0xa66de2a67f762a4da715a80b55629387858a3e7c", true)
     DEFINE_UNIT ("ethereum-ropsten:0xa66de2a67f762a4da715a80b55629387858a3e7c", "Welthee INT", "welti", 0, "WELTI")
-    DEFINE_UNIT ("ethereum-ropsten:0xa66de2a67f762a4da715a80b55629387858a3e7c", "Welthee", "welt", 18, "WELT")
+    DEFINE_UNIT ("ethereum-ropsten:0xa66de2a67f762a4da715a80b55629387858a3e7c", "Welthee test", "welt", 18, "WELT")
 DEFINE_ADDRESS_SCHEMES  ("ethereum-ropsten", CRYPTO_ADDRESS_SCHEME_ETH_DEFAULT)
 DEFINE_MODES            ("ethereum-ropsten", CRYPTO_SYNC_MODE_API_ONLY, CRYPTO_SYNC_MODE_API_WITH_P2P_SEND, CRYPTO_SYNC_MODE_P2P_ONLY)
 #undef NETWORK_NAME
