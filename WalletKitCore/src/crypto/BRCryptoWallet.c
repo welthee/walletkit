@@ -19,6 +19,7 @@
 #include "BRCryptoPaymentP.h"
 
 #include "BRCryptoHandlersP.h"
+#include "handlers/eth/BRCryptoETH.h"
 
 static void
 cryptoWalletUpdTransfer (BRCryptoWallet wallet,
@@ -922,6 +923,33 @@ cryptoWalletCreateTransferForPaymentProtocolRequest (BRCryptoWallet wallet,
     return paymentHandlers->createTransfer (request,
                                             wallet,
                                             estimatedFeeBasis);
+}
+
+extern BRCryptoFeeBasis
+cryptoWalletCreateFeeBasis (BRCryptoWallet wallet,
+                            BRCryptoAmount pricePerCostFactor,
+                            double costFactor) {
+
+    BRCryptoCurrency feeCurrency = cryptoUnitGetCurrency (wallet->unitForFee);
+    if (CRYPTO_FALSE == cryptoAmountHasCurrency (pricePerCostFactor, feeCurrency)) {
+        cryptoCurrencyGive (feeCurrency);
+        return NULL;
+    }
+    cryptoCurrencyGive (feeCurrency);
+
+    UInt256 value = cryptoAmountGetValue (pricePerCostFactor);
+
+    switch (wallet->type) {
+        case CRYPTO_NETWORK_TYPE_ETH: {
+            BREthereumGas gas = ethGasCreate((uint64_t) costFactor);
+            BREthereumGasPrice gasPrice = ethGasPriceCreate (ethEtherCreate(value));
+            return cryptoFeeBasisCreateAsETH (wallet->unitForFee, ethFeeBasisCreate (gas, gasPrice));
+        }
+
+        default: {
+            return NULL;
+        }
+    }
 }
 
 extern BRCryptoBoolean

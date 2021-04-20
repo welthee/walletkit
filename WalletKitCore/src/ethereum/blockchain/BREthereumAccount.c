@@ -264,7 +264,6 @@ ethAccountGetPrimaryAddressPrivateKey (BREthereumAccount account,
                                     account->primaryAddress.index);
 }
 
-#if defined (DEBUG)
 extern const char *
 ethAccountGetPrimaryAddressPublicKeyString (BREthereumAccount account, int compressed) {
     // The byte array at address->publicKey has the '04' 'uncompressed' prefix removed.  Thus
@@ -286,7 +285,18 @@ ethAccountGetPrimaryAddressPublicKeyString (BREthereumAccount account, int compr
     
     return result;
 }
-#endif
+
+extern const char *
+ethAccountGetPrimaryAddressPrivateKeyString (BREthereumAccount account, const char *paperKey) {
+    
+    BRKey privateKey = derivePrivateKeyFromSeed(deriveSeedFromPaperKey(paperKey), account->primaryAddress.index);
+    size_t sourceLen = sizeof (privateKey.secret.u8);
+
+    char *result = malloc (2 * sourceLen + 1);
+    hexEncode(result, 2 * sourceLen + 1, privateKey.secret.u8, sourceLen);
+    
+    return result;
+}
 
 extern BREthereumBoolean
 ethAccountHasAddress(BREthereumAccount account,
@@ -364,7 +374,9 @@ extern uint64_t
 ethAccountGetAddressNonce (BREthereumAccount account,
                            BREthereumAddress address) {
     // TODO: Lookup address, assert address
-    return account->primaryAddress.nonce;
+    uint64_t nonce = account->primaryAddress.nonce;
+    eth_log ("DBG", "    address nonce: %" PRIu64, nonce);
+    return nonce;
     
 }
 
@@ -374,8 +386,11 @@ ethAccountSetAddressNonce(BREthereumAccount account,
                           uint64_t nonce,
                           BREthereumBoolean force) {
     // TODO: Lookup address, assert address
-    if (ETHEREUM_BOOLEAN_IS_TRUE(force) || nonce > account->primaryAddress.nonce)
+    if (ETHEREUM_BOOLEAN_IS_TRUE(force) || nonce > account->primaryAddress.nonce) {
+        eth_log ("DBG", "    address Nonce before update: %" PRIu64, account->primaryAddress.nonce);
         account->primaryAddress.nonce = nonce;
+        eth_log ("DBG", "    address Nonce after update: %" PRIu64, account->primaryAddress.nonce);
+    }
 }
 
 private_extern uint64_t

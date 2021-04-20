@@ -14,7 +14,7 @@
 #include "../BRCryptoHandlersExport.h"
 
 #include "ethereum/base/BREthereumBase.h"
-#include "ethereum/blockchain/BREthereumAccount.h"
+#include "../include/BREthereumAccount.h"
 #include "ethereum/blockchain/BREthereumTransaction.h"
 #include "ethereum/blockchain/BREthereumLog.h"
 #include "ethereum/contract/BREthereumExchange.h"
@@ -100,6 +100,7 @@ typedef struct BRCryptoWalletETHRecord {
     BREthereumAccount ethAccount;
     BREthereumToken   ethToken;    // NULL if `ETH`
     BREthereumGas     ethGasLimit;
+    BREthereumGasPrice ethGasPrice;
 } *BRCryptoWalletETH;
 
 extern BRCryptoWalletETH

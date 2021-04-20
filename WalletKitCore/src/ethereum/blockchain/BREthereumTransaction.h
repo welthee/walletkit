@@ -27,7 +27,7 @@ extern "C" {
 
 static inline BREthereumGas
 gasApplyLimitMargin (BREthereumGas gas) {
-    return ethGasCreate(((100 + GAS_LIMIT_MARGIN_PERCENT) * gas.amountOfGas) / 100);
+    return ethGasCreate(gas.amountOfGas);//ethGasCreate(((100 + GAS_LIMIT_MARGIN_PERCENT) * gas.amountOfGas) / 100);
 }
 
 /**

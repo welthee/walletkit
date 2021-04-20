@@ -124,6 +124,11 @@ extern "C" {
     extern BRCryptoFeeBasis
     cryptoWalletGetDefaultFeeBasis (BRCryptoWallet wallet);
 
+    extern BRCryptoFeeBasis
+    cryptoWalletCreateFeeBasis (BRCryptoWallet wallet,
+                                BRCryptoAmount pricePerCostFactor,
+                                double costFactor);
+
     extern void
     cryptoWalletSetDefaultFeeBasis (BRCryptoWallet wallet,
                                     BRCryptoFeeBasis feeBasis);

@@ -25,6 +25,16 @@ public final class Account {
     public var timestamp: Date {
         return Date.init(timeIntervalSince1970: TimeInterval (cryptoAccountGetTimestamp (core)))
     }
+    
+    public static func ethAccountPublicKey(for paperKey: String) -> String  {
+        let ethAccount: BREthereumAccount = ethAccountCreate (paperKey)
+        return String(cString: ethAccountGetPrimaryAddressPublicKeyString(ethAccount, 0))
+    }
+    
+    public static func ethAccountPrivateKey(for paperKey: String) -> String {
+        let ethAccount: BREthereumAccount = ethAccountCreate (paperKey)
+        return String(cString: ethAccountGetPrimaryAddressPrivateKeyString(ethAccount, paperKey))
+    }
 
     ///
     /// Serialize an account.  The serialization is *always* in the current, default format

@@ -13,9 +13,9 @@
 
 #include <stdlib.h>
 #include <memory.h>
-#include "support/BRInt.h"
-#include "support/BRArray.h"
-#include "support/rlp/BRRlp.h"
+#include "../src/support/BRInt.h"
+#include "../src/support/BRArray.h"
+#include "../src/support/rlp/BRRlp.h"
 #include "BREthereumLogic.h"
 
 #ifdef __cplusplus

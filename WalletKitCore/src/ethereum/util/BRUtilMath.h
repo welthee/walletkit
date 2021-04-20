@@ -11,7 +11,7 @@
 #ifndef BR_Util_Math_H
 #define BR_Util_Math_H
 
-#include "support/BRInt.h"
+#include "../src/support/BRInt.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -203,13 +203,15 @@ cryptoWalletManagerSignTransactionETH (BRCryptoWalletManager manager,
                                  ethNetwork,
                                  RLP_TYPE_TRANSACTION_SIGNED,
                                  coder);
-    transactionSetHash (ethTransaction,
-                        ethHashCreateFromData (rlpItemGetDataSharedDontRelease (coder, item)));
+    transactionSetHash (ethTransaction, ethHashCreateFromData (rlpItemGetDataSharedDontRelease (coder, item)));
 
     pthread_mutex_lock (&transfer->lock);
     transferETH->hash = cryptoHashCreateAsETH(transactionGetHash(ethTransaction));
     pthread_mutex_unlock (&transfer->lock);
 
+    transactionShow (ethTransaction, "DBG");
+    rlpItemShow (coder, item, "DBG");
+    
     rlpItemRelease(coder, item);
     rlpCoderRelease(coder);
 
@@ -275,14 +277,23 @@ cryptoWalletManagerEstimateFeeBasisETH (BRCryptoWalletManager manager,
                                         OwnershipKept BRCryptoTransferAttribute *attributes) {
     BRCryptoWalletETH walletETH = cryptoWalletCoerce (wallet);
 
-    BREthereumFeeBasis ethFeeBasis = {
-        FEE_BASIS_GAS,
-        { .gas = { walletETH->ethGasLimit, cryptoNetworkFeeAsETH (networkFee) }}
-    };
+    BRCryptoFeeBasis feeBasis;
+    
+    if(walletETH->ethToken == NULL) {
+        BREthereumFeeBasis ethFeeBasis = {
+            FEE_BASIS_GAS,
+            { .gas = { walletETH->ethGasLimit, cryptoNetworkFeeAsETH (networkFee) }}
+        };
+        feeBasis = cryptoFeeBasisCreateAsETH (wallet->unitForFee, ethFeeBasis);
+    } else {
+        BREthereumFeeBasis tokenFeeBasis = {
+            FEE_BASIS_GAS,
+            { .gas = { walletETH->ethGasLimit, walletETH->ethGasPrice }}
+        };
+        feeBasis = cryptoFeeBasisCreateAsETH (wallet->unitForFee, tokenFeeBasis);
+    }
 
     BRCryptoCurrency currency = cryptoAmountGetCurrency (amount);
-    BRCryptoFeeBasis feeBasis = cryptoFeeBasisCreateAsETH (wallet->unitForFee, ethFeeBasis);
-
     BRCryptoTransfer transfer = cryptoWalletCreateTransferETH (wallet,
                                                                target,
                                                                amount,
@@ -964,17 +975,6 @@ cryptoWalletManagerRecoverTransferFromTransferBundleETH (BRCryptoWalletManager m
             // If we pay the fee, then the manager's primaryWallet holds the transfer too.
             if (paysFee && transfersPrimaryWallet != primaryWallet)
                 cryptoWalletAddTransfer (primaryWallet, transfer);
-
-#if defined (NEVER_DEFINED)
-            // if we pay the fee, then we send the transfer, update the Ethereum Account's nonce
-            if (paysFee) {
-                ethAccountSetAddressNonce (accountETH,
-                                           ethAccountGetPrimaryAddress(accountETH),
-                                           nonce + 1, // next Nonce
-                                           ETHEREUM_BOOLEAN_FALSE);
-                printf ("DBG: Nonce: try: %llu, now: %llu\n", nonce + 1, ethAccountGetAddressNonce(accountETH, ethAccountGetPrimaryAddress(accountETH)));
-            }
-#endif
         }
 
         cryptoAmountGive (amount);

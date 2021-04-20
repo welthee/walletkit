@@ -124,9 +124,9 @@ DEFINE_CURRENCY ("ethereum-mainnet",     "ethereum-mainnet:__native__",   NETWOR
 DEFINE_CURRENCY ("ethereum-mainnet",    "ethereum-mainnet:0x558ec3152e2eb2174905cd19aea4e34a23de9ad6",  "BRD Token",    "brd",  "erc20",   "0x558ec3152e2eb2174905cd19aea4e34a23de9ad6",   true)
     DEFINE_UNIT ("ethereum-mainnet:0x558ec3152e2eb2174905cd19aea4e34a23de9ad6",      "BRD Token INT",         "brdi",      0,      "BRDI")
     DEFINE_UNIT ("ethereum-mainnet:0x558ec3152e2eb2174905cd19aea4e34a23de9ad6",      "BRD Token",             "brd",       18,     "BRD")
-DEFINE_CURRENCY ("ethereum-mainnet", "ethereum-mainnet:0x0b3200df0611113ce83cd97cc922521a055729b3", "Welthee", "welt", "erc20", "0x0b3200df0611113ce83cd97cc922521a055729b3", true)
-    DEFINE_UNIT ("ethereum-mainnet:0x0b3200df0611113ce83cd97cc922521a055729b3", "Welthee INT", "welti", 0, "WELTI")
-    DEFINE_UNIT ("ethereum-mainnet:0x0b3200df0611113ce83cd97cc922521a055729b3", "Welthee", "welt", 18, "WELT")
+DEFINE_CURRENCY ("ethereum-mainnet", "ethereum-mainnet:0x0b3200DF0611113ce83Cd97cc922521A055729B3", "Welthee", "welt", "erc20", "0x0b3200DF0611113ce83Cd97cc922521A055729B3", true)
+    DEFINE_UNIT ("ethereum-mainnet:0x0b3200DF0611113ce83Cd97cc922521A055729B3", "Welthee INT", "welti", 0, "WELTI")
+    DEFINE_UNIT ("ethereum-mainnet:0x0b3200DF0611113ce83Cd97cc922521A055729B3", "Welthee", "welt", 18, "WELT")
 DEFINE_ADDRESS_SCHEMES  ("ethereum-mainnet", CRYPTO_ADDRESS_SCHEME_NATIVE)
 DEFINE_MODES            ("ethereum-mainnet", CRYPTO_SYNC_MODE_API_ONLY)
 
