@@ -11,9 +11,12 @@
 #include "BRCryptoETH.h"
 #include "crypto/BRCryptoAmountP.h"
 
-#define DEFAULT_ETHER_GAS_PRICE      2ull  // 2 GWEI
-#define DEFAULT_ETHER_GAS_PRICE_UNIT GWEI
+#define DEFAULT_WELT_GAS_PRICE 210ull  // 200 GWEI
+#define DEFAULT_WELT_GAS_PRICE_UNIT GWEI
+#define DEFAULT_WELT_GAS_LIMIT    120000ull
 
+#define DEFAULT_ETHER_GAS_PRICE      120ull  // 120 GWEI
+#define DEFAULT_ETHER_GAS_PRICE_UNIT GWEI
 #define DEFAULT_ETHER_GAS_LIMIT    21000ull
 
 extern BRCryptoWalletETH
@@ -26,6 +29,7 @@ typedef struct {
     BREthereumAccount ethAccount;
     BREthereumToken   ethToken;
     BREthereumGas ethGasLimit;
+    BREthereumGasPrice ethGasPrice;
 } BRCryptoWalletCreateContextETH;
 
 static void
@@ -37,6 +41,7 @@ cryptoWalletCreateCallbackETH (BRCryptoWalletCreateContext context,
     walletETH->ethAccount  = contextETH->ethAccount;
     walletETH->ethToken    = contextETH->ethToken;
     walletETH->ethGasLimit = contextETH->ethGasLimit;
+    walletETH->ethGasPrice = contextETH->ethGasPrice;
 }
 
 private_extern BRCryptoWallet
@@ -45,19 +50,30 @@ cryptoWalletCreateAsETH (BRCryptoWalletListener listener,
                          BRCryptoUnit unitForFee,
                          BREthereumToken   ethToken,
                          BREthereumAccount ethAccount) {
-    BREthereumFeeBasis ethDefaultFeeBasis =
-    ethFeeBasisCreate ((NULL == ethToken
-                        ? ethGasCreate (DEFAULT_ETHER_GAS_LIMIT)
-                        : ethTokenGetGasLimit (ethToken)),
-                       ethGasPriceCreate (ethEtherCreateNumber (DEFAULT_ETHER_GAS_PRICE,
-                                                                DEFAULT_ETHER_GAS_PRICE_UNIT)));
+    BREthereumFeeBasis ethDefaultFeeBasis;
+    BREthereumGasPrice gasPrice;
+                       
+    if (NULL == ethToken) { // ETH
+        gasPrice = ethGasPriceCreate (ethEtherCreateNumber (DEFAULT_ETHER_GAS_PRICE,
+                                                            DEFAULT_ETHER_GAS_PRICE_UNIT));
+        ethDefaultFeeBasis = ethFeeBasisCreate (ethGasCreate (DEFAULT_ETHER_GAS_LIMIT), gasPrice);
+    } else if (strcmp(ethTokenGetSymbol(ethToken), "welt") == 0) { // Welthee
+        gasPrice = ethGasPriceCreate (ethEtherCreateNumber (DEFAULT_WELT_GAS_PRICE,
+                                                            DEFAULT_ETHER_GAS_PRICE_UNIT));
+        ethDefaultFeeBasis = ethFeeBasisCreate (ethGasCreate (DEFAULT_WELT_GAS_LIMIT), gasPrice);
+    } else { // Other token
+        gasPrice =  ethGasPriceCreate (ethEtherCreateNumber (DEFAULT_ETHER_GAS_PRICE,
+                                                             DEFAULT_ETHER_GAS_PRICE_UNIT));
+        ethDefaultFeeBasis = ethFeeBasisCreate (ethTokenGetGasLimit (ethToken), gasPrice);
+    }
 
     BRCryptoAmount minBalance = cryptoAmountCreateInteger(0, unit);
 
     BRCryptoWalletCreateContextETH contextETH = {
         ethAccount,
         ethToken,
-        ethDefaultFeeBasis.u.gas.limit
+        ethDefaultFeeBasis.u.gas.limit,
+        gasPrice
     };
     
     BRCryptoWallet wallet = cryptoWalletAllocAndInit (sizeof (struct BRCryptoWalletETHRecord),
@@ -271,6 +287,7 @@ static void
 cryptoWalletAnnounceTransferETH (BRCryptoWallet wallet,
                                  BRCryptoTransfer transfer,
                                  BRCryptoWalletEventType type) {
+    
     BRCryptoWalletETH walletETH = cryptoWalletCoerce (wallet);
 
     // We are only interested in updating the accounts nonce; therefore token wallets are ignored.
@@ -292,7 +309,7 @@ cryptoWalletAnnounceTransferETH (BRCryptoWallet wallet,
     ethAccountSetAddressNonce (walletETH->ethAccount,
                                ethAccountGetPrimaryAddress(walletETH->ethAccount),
                                (TRANSACTION_NONCE_IS_NOT_ASSIGNED == nonce ? 0 : (nonce + 1)),
-                               ETHEREUM_BOOLEAN_TRUE);
+                               ETHEREUM_BOOLEAN_FALSE);
 }
 
 static bool

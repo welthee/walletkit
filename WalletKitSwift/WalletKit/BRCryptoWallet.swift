@@ -533,19 +533,21 @@ public final class Wallet: Equatable {
         if nil != attributes && nil != self.validateTransferAttributes(attributes!) {
             assertionFailure()
         }
-
-        let coreAttributesCount = attributes?.count ?? 0
-        var coreAttributes: [BRCryptoTransferAttribute?] = attributes?.map { $0.core } ?? []
         
-        // 'Redirect' up to the 'manager'
-        cryptoWalletManagerEstimateFeeBasis (self.manager.core,
-                                             self.core,
-                                             callbackCoordinator.addWalletFeeEstimateHandler(completion),
-                                             target.core,
-                                             amount.core,
-                                             fee.core,
-                                             coreAttributesCount,
-                                             &coreAttributes)
+        completion(.success(defaultFeeBasis()!))
+
+//        let coreAttributesCount = attributes?.count ?? 0
+//        var coreAttributes: [BRCryptoTransferAttribute?] = attributes?.map { $0.core } ?? []
+//
+//        // 'Redirect' up to the 'manager'
+//        cryptoWalletManagerEstimateFeeBasis (self.manager.core,
+//                                             self.core,
+//                                             callbackCoordinator.addWalletFeeEstimateHandler(completion),
+//                                             target.core,
+//                                             amount.core,
+//                                             fee.core,
+//                                             coreAttributesCount,
+//                                             &coreAttributes)
     }
 
     internal func estimateFee (sweeper: WalletSweeper,
@@ -567,6 +569,10 @@ public final class Wallet: Equatable {
                                                                       request.core,
                                                                       fee.core)
     }
+    public func defaultFeeBasis () -> TransferFeeBasis? {
+        return cryptoWalletGetDefaultFeeBasis (core)
+            .map { TransferFeeBasis (core: $0, take: false) }
+    }
 
     public enum FeeEstimationError: Error {
         case ServiceUnavailable
@@ -579,11 +585,6 @@ public final class Wallet: Equatable {
             default: return .ServiceError // preconditionFailure ("Unknown FeeEstimateError")
             }
         }
-    }
-    
-    internal func defaultFeeBasis () -> TransferFeeBasis? {
-        return cryptoWalletGetDefaultFeeBasis (core)
-            .map { TransferFeeBasis (core: $0, take: false) }
     }
     
     ///

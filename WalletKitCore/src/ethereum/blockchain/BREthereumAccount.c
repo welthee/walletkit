@@ -364,7 +364,9 @@ extern uint64_t
 ethAccountGetAddressNonce (BREthereumAccount account,
                            BREthereumAddress address) {
     // TODO: Lookup address, assert address
-    return account->primaryAddress.nonce;
+    uint64_t nonce = account->primaryAddress.nonce;
+    eth_log ("DBG", "    address nonce: %" PRIu64, nonce);
+    return nonce;
     
 }
 
@@ -374,8 +376,11 @@ ethAccountSetAddressNonce(BREthereumAccount account,
                           uint64_t nonce,
                           BREthereumBoolean force) {
     // TODO: Lookup address, assert address
-    if (ETHEREUM_BOOLEAN_IS_TRUE(force) || nonce > account->primaryAddress.nonce)
+    if (ETHEREUM_BOOLEAN_IS_TRUE(force) || nonce > account->primaryAddress.nonce) {
+        eth_log ("DBG", "    address Nonce before update: %" PRIu64, account->primaryAddress.nonce);
         account->primaryAddress.nonce = nonce;
+        eth_log ("DBG", "    address Nonce after update: %" PRIu64, account->primaryAddress.nonce);
+    }
 }
 
 private_extern uint64_t

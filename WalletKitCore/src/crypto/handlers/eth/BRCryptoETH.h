@@ -100,6 +100,7 @@ typedef struct BRCryptoWalletETHRecord {
     BREthereumAccount ethAccount;
     BREthereumToken   ethToken;    // NULL if `ETH`
     BREthereumGas     ethGasLimit;
+    BREthereumGasPrice ethGasPrice;
 } *BRCryptoWalletETH;
 
 extern BRCryptoWalletETH
