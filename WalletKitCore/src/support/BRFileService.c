@@ -757,7 +757,7 @@ fileServiceLoad (BRFileService fs,
 
         // Update restuls with the newly restored entity
         void *oldEntity = BRSetAdd (results, entity);
-        assert (NULL == oldEntity);  // DEBUG builds
+        //assert (NULL == oldEntity);  // DEBUG builds
         if (NULL != oldEntity)
             return fileServiceFailedEntity (fs, 1, (dataBytes == dataBytesBuffer ? NULL : dataBytes), NULL,
                                             type, "duplicate set entry");

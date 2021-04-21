@@ -162,7 +162,7 @@ cryptoCompareUInt256 (UInt256 v1, UInt256 v2) {
 extern BRCryptoComparison
 cryptoAmountCompare (BRCryptoAmount a1,
                      BRCryptoAmount a2) {
-    assert (CRYPTO_TRUE == cryptoAmountIsCompatible(a1, a2));
+    //assert (CRYPTO_TRUE == cryptoAmountIsCompatible(a1, a2));
 
     if (CRYPTO_TRUE == a1->isNegative && CRYPTO_TRUE != a2->isNegative)
         return CRYPTO_COMPARE_LT;

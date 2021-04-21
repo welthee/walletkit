@@ -569,8 +569,26 @@ public final class Wallet: Equatable {
                                                                       request.core,
                                                                       fee.core)
     }
+    
     public func defaultFeeBasis () -> TransferFeeBasis? {
         return cryptoWalletGetDefaultFeeBasis (core)
+            .map { TransferFeeBasis (core: $0, take: false) }
+    }
+    
+    ///
+    /// Create a `TransferFeeBasis` using a `pricePerCostFactor` and `costFactor`.
+    ///
+    /// - Note: This is 'private' until the parameters are described.  Meant for testing for now.
+    ///
+    /// - Parameters:
+    ///   - pricePerCostFactor:
+    ///   - costFactor:
+    ///
+    /// - Returns: An optional TransferFeeBasis
+    ///
+    public func createTransferFeeBasis (pricePerCostFactor: Amount,
+                                        costFactor: Double) -> TransferFeeBasis? {
+        return cryptoWalletCreateFeeBasis (core, pricePerCostFactor.core, costFactor)
             .map { TransferFeeBasis (core: $0, take: false) }
     }
 
