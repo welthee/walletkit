@@ -23,7 +23,7 @@ extern "C" {
 #define TRANSACTION_NONCE_IS_NOT_ASSIGNED   UINT64_MAX
 
 /// If we get a gasEstimate we'll want the gasLimit to have a margin over the estimate
-#define GAS_LIMIT_MARGIN_PERCENT        (20)
+#define GAS_LIMIT_MARGIN_PERCENT        (1)//(20)
 
 static inline BREthereumGas
 gasApplyLimitMargin (BREthereumGas gas) {
