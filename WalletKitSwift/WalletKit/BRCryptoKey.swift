@@ -160,7 +160,7 @@ public final class Key {
     ///
     /// - Parameter core: The Core representaion
     ///
-    internal init (core: BRCryptoKey) {
+    public init (core: BRCryptoKey) {
         self.core = core
         cryptoKeyProvidePublicKey (core, 0, 0)
     }

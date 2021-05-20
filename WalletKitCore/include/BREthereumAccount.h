@@ -11,9 +11,9 @@
 #ifndef BR_Ethereum_Account_H
 #define BR_Ethereum_Account_H
 
-#include "support/BRInt.h"
-#include "support/BRKey.h"
-#include "ethereum/base/BREthereumBase.h"
+#include "../src/support/BRInt.h"
+#include "../src/support/BRKey.h"
+#include "../src/ethereum/base/BREthereumBase.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -87,10 +87,8 @@ extern BRKey
 ethAccountGetPrimaryAddressPrivateKey (BREthereumAccount account,
                                        const char *paperKey);
 
-#if defined (DEBUG)
 extern const char *
 ethAccountGetPrimaryAddressPublicKeyString (BREthereumAccount account, int compressed);
-#endif
 
 extern BREthereumBoolean
 ethAccountHasAddress(BREthereumAccount account,
