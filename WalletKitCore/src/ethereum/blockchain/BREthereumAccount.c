@@ -264,7 +264,6 @@ ethAccountGetPrimaryAddressPrivateKey (BREthereumAccount account,
                                     account->primaryAddress.index);
 }
 
-#if defined (DEBUG)
 extern const char *
 ethAccountGetPrimaryAddressPublicKeyString (BREthereumAccount account, int compressed) {
     // The byte array at address->publicKey has the '04' 'uncompressed' prefix removed.  Thus
@@ -286,7 +285,18 @@ ethAccountGetPrimaryAddressPublicKeyString (BREthereumAccount account, int compr
     
     return result;
 }
-#endif
+
+extern const char *
+ethAccountGetPrimaryAddressPrivateKeyString (BREthereumAccount account, const char *paperKey) {
+    
+    BRKey privateKey = derivePrivateKeyFromSeed(deriveSeedFromPaperKey(paperKey), account->primaryAddress.index);
+    size_t sourceLen = sizeof (privateKey.secret.u8);
+
+    char *result = malloc (2 * sourceLen + 1);
+    hexEncode(result, 2 * sourceLen + 1, privateKey.secret.u8, sourceLen);
+    
+    return result;
+}
 
 extern BREthereumBoolean
 ethAccountHasAddress(BREthereumAccount account,

@@ -11,7 +11,7 @@
 #ifndef BR_Ethereum_Gas_H
 #define BR_Ethereum_Gas_H
 
-#include "support/BRInt.h"
+#include "../src/support/BRInt.h"
 #include "BREthereumEther.h"
 
 #ifdef __cplusplus

@@ -12,11 +12,11 @@
 #define BR_Ethereum_Base_H
 
 #include <stdbool.h>
-#include "support/BRArray.h"
-#include "support/BRBase.h"
-#include "support/BRSet.h"
-#include "ethereum/util/BRUtil.h"
-#include "support/rlp/BRRlp.h"
+#include "../src/support/BRArray.h"
+#include "../src/support/BRBase.h"
+#include "../src/support/BRSet.h"
+#include "../src/ethereum/util/BRUtil.h"
+#include "../src/support/rlp/BRRlp.h"
 
 // All 'base'
 #include "BREthereumLogic.h"
