@@ -33,7 +33,27 @@ public final class Account {
     
     public static func ethAccountPrivateKey(for paperKey: String) -> BRKey {
         let ethAccount: BREthereumAccount = ethAccountCreate (paperKey)
-        return ethAccountGetPrimaryAddressPrivateKey(ethAccount, paperKey)
+        return ethAccountGetPrimaryAddressPrivateKey(ethAccount, paperKey)        
+    }
+    
+    public static func sign(data: Data, with paperKey: String) -> BREthereumSignature? {
+        var signature: BREthereumSignature? = nil
+        var mutable = Data(data)
+        mutable.withUnsafeMutableBytes { rawMutableBufferPointer in
+            let bufferTypedPtr = rawMutableBufferPointer.bindMemory(to: UInt8.self)
+            
+            let ethAccount = ethAccountCreate (paperKey)
+            let ethAddress = ethAccountGetPrimaryAddress(ethAccount)
+            let key = ethAccountGetPrimaryAddressPrivateKey(ethAccount, paperKey)
+            signature = ethAccountSignBytesWithPrivateKey (ethAccount,
+                                                           ethAddress,
+                                                           SIGNATURE_TYPE_RECOVERABLE_RSV,
+                                                           bufferTypedPtr.baseAddress,
+                                                           rawMutableBufferPointer.count,
+                                                           key);
+        }
+        
+        return signature
     }
 
     ///
