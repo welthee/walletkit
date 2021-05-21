@@ -302,6 +302,16 @@ ethAccountSignBytesWithPrivateKey(BREthereumAccount account,
     return ethSignatureCreate(type, bytes, bytesCount, privateKey);
 }
 
+extern uint8_t *
+signBytesWithPrivateKey(BREthereumAccount account,
+                        BREthereumAddress address,
+                        BREthereumSignatureType type,
+                        uint8_t *bytes,
+                        size_t bytesCount,
+                        BRKey privateKey) {
+    return ethRawSignatureCreate(type, bytes, bytesCount, privateKey);
+}
+
 extern BREthereumSignature
 ethAccountSignBytes(BREthereumAccount account,
                     BREthereumAddress address,

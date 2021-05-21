@@ -86,6 +86,52 @@ ethSignatureCreate(BREthereumSignatureType type,
     return signature;
 }
 
+//
+// Signature
+//
+extern uint8_t *
+ethRawSignatureCreate(BREthereumSignatureType type,
+                      uint8_t *bytes,
+                      size_t bytesCount,
+                      BRKey privateKeyUncompressed) {
+
+    // Hash with the required Keccak-256
+    UInt256 messageDigest;
+    BRKeccak256(&messageDigest, bytes, bytesCount);
+
+    switch (type) {
+        case SIGNATURE_TYPE_RECOVERABLE_VRS_EIP: {
+            // Determine the signature length
+            size_t signatureLen = BRKeyCompactSign (&privateKeyUncompressed,
+                                                    NULL, 0,
+                                                    messageDigest);
+
+            // Fill the signature
+            uint8_t *signatureBytes = calloc (1, signatureLen);
+            signatureLen = BRKeyCompactSign (&privateKeyUncompressed,
+                                             signatureBytes, signatureLen,
+                                             messageDigest);
+            return signatureBytes;
+        }
+
+        case SIGNATURE_TYPE_RECOVERABLE_RSV: {
+            // Determine the signature length
+            size_t signatureLen = BRKeyCompactSignEthereum (&privateKeyUncompressed,
+                                                            NULL, 0,
+                                                            messageDigest);
+
+            // Fill the signature
+            uint8_t *signatureBytes = calloc (1, signatureLen);
+            signatureLen = BRKeyCompactSignEthereum (&privateKeyUncompressed,
+                                                     signatureBytes, signatureLen,
+                                                     messageDigest);
+            return signatureBytes;
+        }
+    }
+
+    return NULL;
+}
+
 extern BREthereumBoolean
 ethSignatureEqual (BREthereumSignature s1, BREthereumSignature s2) {
     return (s1.type == s2.type &&

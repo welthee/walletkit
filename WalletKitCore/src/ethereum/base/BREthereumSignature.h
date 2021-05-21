@@ -86,6 +86,12 @@ ethSignatureCreate (BREthereumSignatureType type,
                     size_t bytesCount,
                     BRKey privateKeyUncompressed);
 
+extern uint8_t *
+ethRawSignatureCreate(BREthereumSignatureType type,
+                      uint8_t *bytes,
+                      size_t bytesCount,
+                      BRKey privateKeyUncompressed);
+
 extern BREthereumAddress
 ethSignatureExtractAddress (const BREthereumSignature signature,
                             const uint8_t *bytes,

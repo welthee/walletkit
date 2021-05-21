@@ -120,6 +120,14 @@ ethAccountSignBytes(BREthereumAccount account,
                     size_t bytesCount,
                     const char *paperKey);
 
+extern uint8_t *
+signBytesWithPrivateKey(BREthereumAccount account,
+                        BREthereumAddress address,
+                        BREthereumSignatureType type,
+                        uint8_t *bytes,
+                        size_t bytesCount,
+                        BRKey privateKey);
+
 //
 // Support (quasi-private)
 //
