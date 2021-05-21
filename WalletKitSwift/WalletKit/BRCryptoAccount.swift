@@ -45,13 +45,14 @@ public final class Account {
             let ethAccount = ethAccountCreate (paperKey)
             let ethAddress = ethAccountGetPrimaryAddress(ethAccount)
             let key = ethAccountGetPrimaryAddressPrivateKey(ethAccount, paperKey)
+            
             if let signatureRaw = signBytesWithPrivateKey (ethAccount,
                                                  ethAddress,
                                                  SIGNATURE_TYPE_RECOVERABLE_RSV,
                                                  bufferTypedPtr.baseAddress,
                                                  rawMutableBufferPointer.count,
                                                  key) {
-                signatureData = Data(bytes: signatureRaw, count: 65)
+                signatureData = Data(bytes: signatureRaw, count: 64)
             }
         }
         
