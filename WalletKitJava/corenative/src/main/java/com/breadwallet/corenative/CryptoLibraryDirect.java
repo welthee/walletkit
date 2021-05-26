@@ -7,7 +7,10 @@
  */
 package com.breadwallet.corenative;
 
+import android.graphics.Point;
+
 import com.breadwallet.corenative.crypto.BRCryptoClient;
+import com.breadwallet.corenative.crypto.BRCryptoKey;
 import com.breadwallet.corenative.crypto.BRCryptoPayProtReqBitPayAndBip70Callbacks;
 import com.breadwallet.corenative.crypto.BRCryptoWalletManager;
 import com.breadwallet.corenative.crypto.BRCryptoWalletManagerState;
@@ -50,6 +53,11 @@ public final class CryptoLibraryDirect {
     public static native Pointer cryptoAccountGeneratePaperKey(StringArray words);
     public static native int cryptoAccountValidatePaperKey(ByteBuffer phraseBuffer, StringArray wordsArray);
     public static native void cryptoAccountGive(Pointer obj);
+
+    // crypto/BREthereumAccount.h
+    public static native Pointer ethAccountCreate(String phraseBuffer);
+    public static native String ethAccountGetPrimaryAddressPublicKeyString(Pointer acc, int compressed);
+    public static native Pointer ethAccountGetPrimaryAddressPrivateKey(Pointer acc, String phraseBuffer);
 
     // crypto/BRCryptoAddress.h
     public static native Pointer cryptoAddressAsString(Pointer address);

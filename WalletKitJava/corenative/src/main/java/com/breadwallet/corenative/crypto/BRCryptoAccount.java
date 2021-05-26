@@ -1,7 +1,7 @@
 /*
  * Created by Michael Carrara <michael.carrara@breadwallet.com> on 7/1/19.
  * Copyright (c) 2019 Breadwinner AG.  All right reserved.
-*
+ *
  * See the LICENSE file at the project root for license information.
  * See the CONTRIBUTORS file at the project root for a list of contributors.
  */
@@ -28,6 +28,14 @@ import java.util.concurrent.TimeUnit;
 import static com.google.common.base.Preconditions.checkArgument;
 
 public class BRCryptoAccount extends PointerType {
+
+    public static String ethAccountPublicKey(String paperKey) {
+        return CryptoLibraryDirect.ethAccountGetPrimaryAddressPublicKeyString(CryptoLibraryDirect.ethAccountCreate(paperKey), 0);
+    }
+
+    public static Optional<BRCryptoKey> ethAccountPrivateKey(String paperKey) {
+        return Optional.fromNullable(CryptoLibraryDirect.ethAccountGetPrimaryAddressPrivateKey(CryptoLibraryDirect.ethAccountCreate(paperKey), paperKey)).transform(BRCryptoKey::new);
+    }
 
     public static Optional<BRCryptoAccount> createFromPhrase(byte[] phraseUtf8, UnsignedLong timestamp, String uids) {
         // ensure string is null terminated
