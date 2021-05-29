@@ -16,7 +16,7 @@
 #include "support/BRBIP32Sequence.h"
 #include "support/BRBIP39Mnemonic.h"
 #include "support/BRKey.h"
-#include "ethereum/blockchain/BREthereumAccount.h"
+#include "../include/BREthereumAccount.h"
 #include "ripple/BRRippleAccount.h"
 #include "hedera/BRHederaAccount.h"
 #include "tezos/BRTezosAccount.h"
