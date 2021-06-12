@@ -26,7 +26,7 @@
 #include "support/BRBIP39WordsEn.h"
 #include "support/event/BREventAlarm.h"
 #include "ethereum/blockchain/BREthereumBlockChain.h"
-#include "ethereum/blockchain/BREthereumAccount.h"
+#include "BREthereumAccount.h"
 
 #include "test.h"
 

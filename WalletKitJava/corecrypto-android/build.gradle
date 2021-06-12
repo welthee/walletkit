@@ -59,8 +59,8 @@ dependencies {
     api deps.jnaAndroid
     api project(':crypto')
 
-    api project(':corenative-android')
-    //api(name:"corenative-android-debug", ext:"aar")
+    //api project(':corenative-android')
+    api(name:"corenative-android-debug", ext:"aar")
     api deps.guavaAndroid
     api deps.androidAppCompatV7
     api deps.jacksonAnnotations
