@@ -106,7 +106,7 @@ class BRCryptoBlocksetTests: XCTestCase {
         #if false
         expectation = XCTestExpectation (description: "transfers")
 
-        client.getTransfers (blockchainId: blockchainId,
+        blockchainClient.getTransfers (blockchainId: blockchainId,
                              addresses: [],
                              begBlockNumber: 0,
                              endBlockNumber: 1,
@@ -188,7 +188,7 @@ class BRCryptoBlocksetTests: XCTestCase {
         #if false
         expectation = XCTestExpectation (description: "transfers w/ [0,11000) w/ no address")
 
-        client.getTransfers (blockchainId: blockchainId,
+        blockchainClient.getTransfers (blockchainId: blockchainId,
                              addresses: [],
                              begBlockNumber: 1446080,
                              endBlockNumber: 1446090,
@@ -230,7 +230,7 @@ class BRCryptoBlocksetTests: XCTestCase {
         #if false
         expectation = XCTestExpectation (description: "transactions")
 
-        client.getTransactions (blockchainId: blockchainId,
+        blockchainClient.getTransactions (blockchainId: blockchainId,
                                 addresses: [],
                                 begBlockNumber: 0,
                                 endBlockNumber: 1,
@@ -318,7 +318,7 @@ class BRCryptoBlocksetTests: XCTestCase {
         #if false
         expectation = XCTestExpectation (description: "transactions w/ [0,11000) w/ no address")
 
-        client.getTransactions (blockchainId: blockchainId,
+        blockchainClient.getTransactions (blockchainId: blockchainId,
                                 addresses: [],
                                 begBlockNumber: 1446080,
                                 endBlockNumber: 1446090,

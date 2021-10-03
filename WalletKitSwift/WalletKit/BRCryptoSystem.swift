@@ -412,7 +412,7 @@ public final class System {
 
             print ("SYS: Account: Hedera: publicKey: \(publicKey)")
 
-            client.getHederaAccount (blockchainId: network.uids, publicKey: publicKey) {
+            blockchainClient.getHederaAccount (blockchainId: network.uids, publicKey: publicKey) {
                 (res: Result<[SystemClient.HederaAccount], SystemClientError>) in
                 self.accountInitializeReportResult(
                     res.map { !$0.isEmpty }
@@ -592,7 +592,7 @@ public final class System {
         let currencyKeyValues = wallets.map { ($0.currency.code, [$0.source.description]) }
         let wallet = (id: account.uids,
                       currencies: Dictionary (uniqueKeysWithValues: currencyKeyValues))
-        self.client.updateWallet (wallet) { (res: Result<SystemClient.Wallet, SystemClientError>) in
+        self.blockchainClient.updateWallet (wallet) { (res: Result<SystemClient.Wallet, SystemClientError>) in
             print ("SYS: SubscribedWallets: \(res)")
         }
     }
