@@ -80,7 +80,7 @@ public protocol SystemClient {
     func getCurrency (currencyId: String,
                       completion: @escaping (Result<Currency,SystemClientError>) -> Void)
     
-    // Amount
+    // BRDAmount
     
     typealias Amount = (currency: String, value: String)
     

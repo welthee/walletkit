@@ -132,7 +132,7 @@ UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
 
             let unit = self.wallet.unit
             let amount = Amount.create (double: Double(value), unit: unit)
-            print ("APP: TVV: Submit Amount: \(amount)");
+            print ("APP: TVV: Submit BRDAmount: \(amount)");
 
             guard let transferFeeBasis = self.feeBasis
                 else { self.submitTransferFailed ("no fee basis"); return }
@@ -274,7 +274,7 @@ UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
         guard let pricePerCostFactorUnit = wallet.manager.network.baseUnitFor (currency: wallet.unitForFee.currency)
             else { return }
 
-        let pricePerCostFactor = Amount.create(integer: Int64(gasPrice()), unit: pricePerCostFactorUnit)
+        let pricePerCostFactor = BRDAmount.create(integer: Int64(gasPrice()), unit: pricePerCostFactorUnit)
         let costFactor = Double (gasLimit())
 
         if let feeBasis = wallet.createTransferFeeBasis(pricePerCostFactor: pricePerCostFactor, costFactor: costFactor) {
@@ -307,7 +307,7 @@ UITextViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
         guard let pricePerCostFactorUnit = wallet.manager.network.baseUnitFor (currency: wallet.unitForFee.currency)
             else { return }
         
-        let pricePerCostFactor = Amount.create(integer: Int64(satPerKB()), unit: pricePerCostFactorUnit)
+        let pricePerCostFactor = BRDAmount.create(integer: Int64(satPerKB()), unit: pricePerCostFactorUnit)
         let costFactor = Double (1) // sizeInKB
         
         if let feeBasis = wallet.createTransferFeeBasis(pricePerCostFactor: pricePerCostFactor, costFactor: costFactor) {
