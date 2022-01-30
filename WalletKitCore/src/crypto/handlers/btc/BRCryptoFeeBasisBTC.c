@@ -100,7 +100,7 @@ cryptoFeeBasisGetFeeBTC (BRCryptoFeeBasis feeBasis) {
     BRCryptoFeeBasisBTC btcFeeBasis = cryptoFeeBasisCoerce (feeBasis);
     return cryptoAmountCreate (feeBasis->unit,
                                CRYPTO_FALSE,
-                               uint256Create (btcFeeBasis->fee));
+                               uint256Create (btcFeeBasis->feePerKB));
 }
 
 static BRCryptoBoolean
